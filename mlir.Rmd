@@ -1,0 +1,33 @@
+---
+title: "machineLearningInR"
+author: "JG"
+date: "22/03/2021"
+output: html_document
+---
+
+This tutorial uses the Iris data set, which is very well-known in the area of machine learning. This dataset is built into R, so you can take a look at this dataset by typing the following into your console:
+
+```{r}
+# Read in `iris` data
+iris <- read.csv(url("http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"), header = FALSE) 
+
+# Add column names
+names(iris) <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width", "Species")
+
+# Check the result
+iris
+```
+
+The command reads the .csv or “Comma Separated Value” file from the website. The header argument has been put to FALSE, which means that the Iris data set from this source does not give you the attribute names of the data.
+
+Instead of the attribute names, you might see strange column names such as “V1” or “V2” when you inspect the iris attribute with a function such as head(). Those are set at random.
+
+To simplify working with the data set, it is a good idea to make the column names yourself: you can do this through the function names(), which gets or sets the names of an object. Concatenate the names of the attributes as you would like them to appear. In the code chunk above, you’ll have listed Sepal.Length, Sepal.Width, Petal.Length, Petal.Width and Species.
+
+```{r}
+# Load in `ggvis`
+library(ggvis)
+
+# Iris scatter plot
+iris %>% ggvis(~Sepal.Length, ~Sepal.Width, fill = ~Species) %>% layer_points()
+```
