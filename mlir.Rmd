@@ -31,3 +31,64 @@ library(ggvis)
 # Iris scatter plot
 iris %>% ggvis(~Sepal.Length, ~Sepal.Width, fill = ~Species) %>% layer_points()
 ```
+
+You see that there is a high correlation between the sepal length and the sepal width of the Setosa iris flowers, while the correlation is somewhat less high for the Virginica and Versicolor flowers: the data points are more spread out over the graph and don’t form a cluster like you can see in the case of the Setosa flowers.
+
+The scatter plot that maps the petal length and the petal width tells a similar story:
+
+```{r}
+iris %>% ggvis(~Petal.Length, ~Petal.Width, fill = ~Species) %>% layer_points()
+```
+
+You see that this graph indicates a positive correlation between the petal length and the petal width for all different species that are included into the Iris data set. Of course, you probably need to test this hypothesis a bit further if you want to be really sure of this:
+
+```{r}
+# Overall correlation `Petal.Length` and `Petal.Width`
+cor(iris$Petal.Length, iris$Petal.Width)
+
+# Return values of `iris` levels 
+x=levels(iris$Species)
+
+# Print Setosa correlation matrix
+print(x[1])
+cor(iris[iris$Species==x[1],1:4])
+
+# Print Versicolor correlation matrix
+print(x[2])
+cor(iris[iris$Species==x[2],1:4])
+
+# Print Virginica correlation matrix
+print(x[3])
+cor(iris[iris$Species==x[3],1:4])
+```
+
+You see that when you combined all three species, the correlation was a bit stronger than it is when you look at the different species separately: the overall correlation is 0.96, while for Versicolor this is 0.79. Setosa and Virginica, on the other hand, have correlations of petal length and width at 0.31 and 0.32 when you round up the numbers.
+
+After a general visualized overview of the data, you can also view the data set by entering:
+
+```{r}
+# Return all `iris` data
+iris
+
+# Return first 5 lines of `iris`
+head(iris)
+
+# Return structure of `iris`
+str(iris)
+```
+
+However, as you will see from the result of this command, this really isn’t the best way to inspect your data set thoroughly: the data set takes up a lot of space in the console, which will impede you from forming a clear idea about your data. It is therefore a better idea to inspect the data set by executing head(iris) or str(iris).
+
+Note that the last command will help you to clearly distinguish the data type num and the three levels of the Species attribute, which is a factor. This is very convenient, since many R machine learning classifiers require that the target feature is coded as a factor.
+
+Remember that factor variables represent categorical variables in R. They can thus take on a limited number of different values.
+
+A quick look at the Species attribute through tells you that the division of the species of flowers is 50-50-50. On the other hand, if you want to check the percentual division of the Species attribute, you can ask for a table of proportions:
+
+```{r}
+# Division of `Species`
+table(iris$Species) 
+
+# Percentual division of `Species`
+round(prop.table(table(iris$Species)) * 100, digits = 1)
+```
